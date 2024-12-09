@@ -1,93 +1,92 @@
-import { Image, StyleSheet, Platform, View, TextInput, TouchableOpacity,Text } from 'react-native';
+import { Alert, Image, StyleSheet, Platform, View, TextInput, TouchableOpacity, Text } from 'react-native';
 
 
 import React, { useState } from 'react';
 import { Formik } from 'formik';
 import { loginValidationSchema } from '@/components/loginValidationSchema';
 import { useNavigation } from '@react-navigation/native';
+import DialogBox from '../util/helper/DialogBox';
 
 export default function HomeScreen() {
-  const navigation=useNavigation();
-  const [validation,setValidation]=useState({
-    email:"",
-    password:""
+  const navigation = useNavigation();
+  const [payload, setPayload] = useState({
+    email: "",
+    password: ""
+  })
+  const [validation, setValidation] = useState({
+    email: "",
+    password: ""
   });
-  const handleSubmit  = () => {
-    alert("asfasfasfasfasfasf")
+
+  const handleSubmit = () => {
+
+    DialogBox("asf", "safasfasfas");
+
+    // Alert.alert('Alert Title','My Alert Msg',
+    //   [{text: 'Cancel', onPress: () => Alert.alert('Cancel Pressed'), style: 'cancel'}],
+    //   {
+    //     cancelable: true,
+    //     onDismiss: () =>
+    //       Alert.alert(
+    //         'This alert was dismissed by tapping outside of the alert dialog.',
+    //       ),
+    //   },
+    // );
   }
+
+
+
+
+
   return (
     <View style={styles.container}>
       <Image source={require('@/assets/images/logo.png')} style={styles.logo} />
-    <View>
-    <Text style={styles.title}>How do you want to log in?</Text>
-    </View>
-     
+      <View>
+        <Text style={styles.title}>How do you want to log in?</Text>
+      </View>
+      <>
+        <View style={styles.inputContainer}>
+          {/* <Icon name="mail-outline" size={25} style={styles.icon} /> */}
+          <TextInput
+            style={styles.input}
+            placeholder="Email"
+            keyboardType="email-address"
+            onChangeText={(text) => setPayload((prev: any) => ({ ...prev, email: text }))}
+            value={payload?.email}
+          />
+        </View>
 
-      <Formik
-        validationSchema={loginValidationSchema}
-        initialValues={{ email: '', password: '' }}
-       
-      >
-        {({
-          handleChange,
-          handleBlur,
-          handleSubmit,
-          values,
-          errors,
-          touched,
-          isValid,
-        }) => (
-          <>
-            <View style={styles.inputContainer}>
-              {/* <Icon name="mail-outline" size={25} style={styles.icon} /> */}
-              <TextInput
-                style={styles.input}
-                placeholder="Email"
-                keyboardType="email-address"
-                onChangeText={handleChange('email')}
-                onBlur={handleBlur('email')}
-                value={values.email}
-              />
-            </View>
-            {errors.email && touched.email && (
-       
-                <Text>{errors.email}</Text>
-          
-              
-            )}
-            <View style={styles.inputContainer}>
-              {/* <Icon name="lock-closed-outline" size={25} style={styles.icon} /> */}
-              <TextInput
-                style={styles.input}
-                placeholder="Password"
-                secureTextEntry
-                onChangeText={handleChange('password')}
-                onBlur={handleBlur('password')}
-                value={values.password}
-              />
-            </View>
-            {errors.password && touched.password && (
-              <Text style={styles.errorText}>{errors.password}</Text>
-            )}
-            <TouchableOpacity onPress={() => ""}>
+        <View style={styles.inputContainer}>
+          {/* <Icon name="lock-closed-outline" size={25} style={styles.icon} /> */}
+          <TextInput
+            style={styles.input}
+            placeholder="Password"
+            secureTextEntry
+            onChangeText={(password) => setPayload((prev: any) => ({ ...prev, password: password }))}
+            value={payload.password}
+          />
+        </View>
 
-              <Text style={styles.forgotPassword}>Forgot Password?</Text>
+        <TouchableOpacity onPress={() => ""}>
 
-            </TouchableOpacity>
-            <TouchableOpacity style={styles.button} onPress={() => handleSubmit} disabled={!isValid}>
-              <Text style={styles.buttonText}>Login</Text>
-            </TouchableOpacity>
+          <Text style={styles.forgotPassword}>Forgot Password?</Text>
 
-            <TouchableOpacity 
-            // onPress={() => navigation.navigate('SignUp')}
-            >
-              <Text style={styles?.signUp}>
-                Don't have an account? <Text style={styles.signUpLink}>Sign Up</Text>
-              </Text>
-            </TouchableOpacity>
-          </>
-        )}
-      </Formik>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.buttonText}>Login</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+        // onPress={() => navigation.navigate('SignUp')}
+        >
+          <Text style={styles?.signUp}>
+            Don't have an account? <Text style={styles.signUpLink}>Sign Up</Text>
+          </Text>
+        </TouchableOpacity>
+      </>
+
+
+
     </View>
   );
 }
